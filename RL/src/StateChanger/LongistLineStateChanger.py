@@ -20,3 +20,5 @@ class LongistLineStateChanger(object):
     def getState(aMap):
         BlackSideMA = MapUtils.getSideMapArray(aMap, 1)
         WhiteSideMA = MapUtils.getSideMapArray(aMap, 2)
+        
+        
