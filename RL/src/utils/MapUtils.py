@@ -4,6 +4,8 @@ Created on 2016. 6. 2.
 @author: Administrator
 '''
 
+import random
+
 class MapUtils(object):
     '''
     classdocs
@@ -40,10 +42,10 @@ class MapUtils(object):
         bflag = True
         
         for atip in aTips:
-            if aMA[atip[0]][atip[1]] != aline[2]:
-                bflag = True
+            if aMA[atip[0]][atip[1]] == 0:
+                bflag = bflag & False
             else:
-                bflag = False
+                bflag = bflag & True
         
         return bflag 
     
@@ -76,6 +78,25 @@ class MapUtils(object):
         return Tips
     
     @staticmethod
+    def getSideLiveSecondLongestLine(aMap, side):
+        livelines = MapUtils.getSideLiveLines(aMap, side)
+        
+        if len(livelines) < 2:
+            return []
+        
+        aLongest = livelines[0]
+        aSecond = livelines[1]
+        
+        for aline in livelines:
+            if aLongest[1][1] <= aline[1][1]:
+                aSecond = aLongest
+                aLongest = aline
+            elif aSecond[1][1] < aline[1][1]:
+                aSecond = aline
+        
+        return aSecond
+    
+    @staticmethod
     def getSideLiveLongestLineSize(aMap, side):
         return MapUtils.getSideLiveLongestLine(aMap, side)[1][1]
             
@@ -83,13 +104,16 @@ class MapUtils(object):
     def getSideLiveLongestLine(aMap, side):
         livelines = MapUtils.getSideLiveLines(aMap, side)
         
+        if len(livelines) == 0:
+            return []
+        
         aLongest = livelines[0]
         
         for aline in livelines:
             if aLongest[1][1] < aline[1][1]:
                 aLongest = aline
         
-        return aline
+        return aLongest
     
     @staticmethod
     def getSideLiveLines(aMap, side):
@@ -104,17 +128,20 @@ class MapUtils(object):
     
     @staticmethod
     def getSideLines(aMap, side):
-        SideMA = MapUtils.getSideMapArray(aMap, side)
+        SideMA1 = MapUtils.getSideMapArray(aMap, side)
+        SideMA2 = MapUtils.getSideMapArray(aMap, side)
+        SideMA3 = MapUtils.getSideMapArray(aMap, side)
+        SideMA4 = MapUtils.getSideMapArray(aMap, side)
         
         Lines = []
         
         tempvertical = []
         for i in range(0,14):
             for j in range(0,19):
-                if SideMA[i][j] == side:
+                if SideMA1[i][j] == side:
                     for x in range(0,6):
-                        if SideMA[i+x][j] == side:
-                            SideMA[i+x][j] = 0
+                        if SideMA1[i+x][j] == side:
+                            SideMA1[i+x][j] = 0
                             if x == 5:
                                 tempvertical.append([i,j], 6)
                                 break
@@ -128,10 +155,10 @@ class MapUtils(object):
         temphorizontal = []
         for i in range(0,19):
             for j in range(0,14):
-                if SideMA[i][j] == side:
+                if SideMA2[i][j] == side:
                     for x in range(0,6):
-                        if SideMA[i][j+x] == side:
-                            SideMA[i][j+x] = 0
+                        if SideMA2[i][j+x] == side:
+                            SideMA2[i][j+x] = 0
                             if x == 5:
                                 temphorizontal.append([i,j], 6)
                                 break
@@ -145,10 +172,10 @@ class MapUtils(object):
         tempdiagonal = []
         for i in range(0,14):
             for j in range(0,14):
-                if SideMA[i][j] == side:
+                if SideMA3[i][j] == side:
                     for x in range(0,6):
-                        if SideMA[i+x][j+x] == side:
-                            SideMA[i+x][j+x] = 0
+                        if SideMA3[i+x][j+x] == side:
+                            SideMA3[i+x][j+x] = 0
                             if x == 5:
                                 tempdiagonal.append([i,j], 6)
                                 break
@@ -162,10 +189,10 @@ class MapUtils(object):
         tempcross = []
         for i in range(5,19):
             for j in range(0,14):
-                if SideMA[i][j] == side:
+                if SideMA4[i][j] == side:
                     for x in range(0,6):
-                        if SideMA[i-x][j+x] == side:
-                            SideMA[i-x][j+x] = 0
+                        if SideMA4[i-x][j+x] == side:
+                            SideMA4[i-x][j+x] = 0
                             if x == 5:
                                 tempcross.append([i,j], 6)
                                 break
@@ -177,5 +204,24 @@ class MapUtils(object):
             Lines.append(['cross', ttemp, side])
         
         return Lines
+    
+    @staticmethod
+    def isEmpty(aMap, loc):
+        if aMap[loc[0]][loc[1]] == 0:
+            return True;
+        return False;
+    
+    @staticmethod
+    def getStone(aMap, loc):
+        return aMap[loc[0]][loc[1]]
+    
+    @staticmethod
+    def getRandomEmptySpace(aMap):
+        aloc = [random.randrange(0,19), random.randrange(0,19)]
+        while MapUtils.isEmpty(aMap, aloc) == False:
+            aloc = [random.randrange(0,19), random.randrange(0,19)]
+        return aloc
+    
+    
                                 
                             

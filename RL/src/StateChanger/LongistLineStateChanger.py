@@ -3,11 +3,17 @@ Created on 2016. 6. 2.
 
 @author: Administrator
 '''
-from src.utils.MapUtils import MapUtils
+from utils.MapUtils import MapUtils
 
 class LongistLineStateChanger(object):
     '''
     classdocs
+    state = [my longest line size, enemy longest line size]
+    ex)
+    [3,2]
+    
+    all case(may be)
+    [0~6, 0~6] - [6,6]
     '''
 
 
@@ -17,8 +23,13 @@ class LongistLineStateChanger(object):
         '''
         
     @staticmethod
-    def getState(aMap):
-        BlackSideMA = MapUtils.getSideMapArray(aMap, 1)
-        WhiteSideMA = MapUtils.getSideMapArray(aMap, 2)
+    def getState(aMap, myside):
+        BlackSideLL = MapUtils.getSideLiveLongestLineSize(aMap, 1)
+        WhiteSideLL = MapUtils.getSideLiveLongestLineSize(aMap, 2)
+        
+        if myside == 1:
+            return [BlackSideLL, WhiteSideLL]
+        else:
+            return [WhiteSideLL, BlackSideLL]
         
         
