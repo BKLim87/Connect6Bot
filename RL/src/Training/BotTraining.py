@@ -11,6 +11,7 @@ from utils.MapUtils import MapUtils
 from Resource.HistoryList import HistoryList
 from StateChanger.LongistLineStateChanger import LongistLineStateChanger
 from ActionTypes.ATDFset import ATDFset
+from Training.RewardCalculator import RewardCalculator
 
 
 class BotTraining(object):
@@ -34,14 +35,16 @@ class BotTraining(object):
                 bot2side = 2
             else:
                 bot2side = 1
-                
+            
+            #set to start
             bot1 = Bot(self.LearningObject1, bot1side)
             bot2 = Bot(self.LearningObject2, bot2side)
             aHistory = HistoryList('9,9,1')
             aMap = Map()
-            aMap.setFromHistoryList(aHistory)
-            
+            aMap.setFromHistoryList(aHistory)            
             Turn = 2
+            
+            #start one match
             while(MapUtils.getWinSide(aMap) == 0):
                 turnbot = bot1
                 if bot1.side != Turn:
@@ -49,17 +52,30 @@ class BotTraining(object):
                     
                 turnstate = turnbot.LearningObject.StateChanger.getStatebyHistory(aHistory, Turn)
                 turnaction = turnbot.LearningObject.getAction(turnstate)
-                turnphase = turnbot.LearningObject.ActionType.doActionbyHistory(turnaction, aHistory, Turn)
+                turnphase = turnbot.LearningObject.ActionType.doActionByHistory(turnaction, aHistory, Turn)
                 aHistory.updatePhase(turnphase)
                 aMap.setFromHistoryList(aHistory)
                 
+                turnbot.StateActionRewardList.append([aMap.Copy(), turnaction, RewardCalculator.getReward(aMap, turnaction, turnbot)])
                 
                 if Turn == 2:
                     Turn = 1
                 else:
                     Turn = 2
-                    
-            aHistory.printlist()
+            
+            losebot = bot1
+            if bot1.side != Turn:
+                losebot = bot2
+            losebot.putLoseReward()
+            
+            bot1.update()
+            bot2.update()
+            
+            #print this match
+            print(aHistory)
+            
+            #learning this match
+            
 
 if __name__ == "__main__":
     print('start training')

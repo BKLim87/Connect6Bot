@@ -43,4 +43,9 @@ class Map(object):
         for aph in Phases:
             self.MapArray[aph.x][aph.y] = aph.value
         
-        
+    def Copy(self):
+        newMap = Map()
+        for i in range(0,19):
+            for j in range(0,19):
+                newMap.MapArray[i][j] = self.MapArray[i][j]
+        return newMap

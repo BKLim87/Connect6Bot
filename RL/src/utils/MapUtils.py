@@ -50,6 +50,16 @@ class MapUtils(object):
         return bflag 
     
     @staticmethod
+    def getLiveTips(aMap, aline):
+        tips = MapUtils.getTips(aline)
+        livetips = []
+        for ati in tips:
+            if MapUtils.isEmpty(aMap, ati):
+                livetips.append(ati)
+        return livetips
+        
+    
+    @staticmethod
     def getTips(aline):
         '''
         aline example:
@@ -61,7 +71,7 @@ class MapUtils(object):
             Tips = [[aline[1][0][0]-1,aline[1][0][1]],[aline[1][0][0]+aline[1][1],aline[1][0][1]]]
             pass
         elif aline[0] == 'horizontal':
-            Tips = [[aline[1][0][0],aline[1][0][1]-1],[aline[1][0][0],aline[1][1]+aline[1][1]]]
+            Tips = [[aline[1][0][0],aline[1][0][1]-1],[aline[1][0][0],aline[1][0][1]+aline[1][1]]]
             pass
         elif aline[0] == 'diagonal':
             Tips = [[aline[1][0][0]-1,aline[1][0][1]-1],[aline[1][0][0]+aline[1][1],aline[1][0][1]+aline[1][1]]]
@@ -147,7 +157,7 @@ class MapUtils(object):
                         if SideMA1[i+x][j] == side:
                             SideMA1[i+x][j] = 0
                             if x == 5:
-                                tempvertical.append([i,j], 6)
+                                tempvertical.append([[i,j], 6])
                                 break
                             
                         else:
@@ -164,7 +174,7 @@ class MapUtils(object):
                         if SideMA2[i][j+x] == side:
                             SideMA2[i][j+x] = 0
                             if x == 5:
-                                temphorizontal.append([i,j], 6)
+                                temphorizontal.append([[i,j], 6])
                                 break
                             
                         else:
@@ -181,7 +191,7 @@ class MapUtils(object):
                         if SideMA3[i+x][j+x] == side:
                             SideMA3[i+x][j+x] = 0
                             if x == 5:
-                                tempdiagonal.append([i,j], 6)
+                                tempdiagonal.append([[i,j], 6])
                                 break
                             
                         else:
@@ -198,7 +208,7 @@ class MapUtils(object):
                         if SideMA4[i-x][j+x] == side:
                             SideMA4[i-x][j+x] = 0
                             if x == 5:
-                                tempcross.append([i,j], 6)
+                                tempcross.append([[i,j], 6])
                                 break
                             
                         else:
@@ -211,13 +221,13 @@ class MapUtils(object):
     
     @staticmethod
     def isEmpty(aMap, loc):
-        if aMap[loc[0]][loc[1]] == 0:
+        if aMap.MapArray[loc[0]][loc[1]] == 0:
             return True;
         return False;
     
     @staticmethod
     def getStone(aMap, loc):
-        return aMap[loc[0]][loc[1]]
+        return aMap.MapArray[loc[0]][loc[1]]
     
     @staticmethod
     def getRandomEmptySpace(aMap):

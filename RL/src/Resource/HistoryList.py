@@ -28,9 +28,11 @@ class HistoryList(object):
         for aph in phases:
             self.historylist.append(aph)
     
-    def printlist(self):
+    def __str__(self):
+        astr = ''
         for a in self.historylist:
-            print(a)
+            astr = astr + a.__str__() + ';'
+        return astr
         
         
 class History(object):
@@ -39,3 +41,5 @@ class History(object):
         self.y = ty
         self.value = tvalue
         
+    def __str__(self):
+        return str(self.x)+','+str(self.y)+','+str(self.value)
