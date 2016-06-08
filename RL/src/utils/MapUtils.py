@@ -98,7 +98,11 @@ class MapUtils(object):
     
     @staticmethod
     def getSideLiveLongestLineSize(aMap, side):
-        return MapUtils.getSideLiveLongestLine(aMap, side)[1][1]
+        aLL = MapUtils.getSideLiveLongestLine(aMap, side)
+        if aLL == []:
+            return 0
+        else:
+            return aLL[1][1]
             
     @staticmethod
     def getSideLiveLongestLine(aMap, side):
@@ -222,6 +226,12 @@ class MapUtils(object):
             aloc = [random.randrange(0,19), random.randrange(0,19)]
         return aloc
     
-    
+    @staticmethod
+    def getWinSide(aMap):
+        if MapUtils.getSideLiveLongestLineSize(aMap, 1) >= 6:
+            return 1
+        elif MapUtils.getSideLiveLongestLineSize(aMap, 2) >= 6:
+            return 2
+        return 0
                                 
                             

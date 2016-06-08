@@ -18,10 +18,19 @@ class HistoryList(object):
         
         self.historylist = []
         
-        lines = strr.split(';')
-        for aline in lines:
-            temp = aline.split(',')
-            self.historylist.append(History(int(temp[0]), int(temp[1]), int(temp[2])))
+        if strr != '':
+            lines = strr.split(';')
+            for aline in lines:
+                temp = aline.split(',')
+                self.historylist.append(History(int(temp[0]), int(temp[1]), int(temp[2])))
+    
+    def updatePhase(self, phases):
+        for aph in phases:
+            self.historylist.append(aph)
+    
+    def printlist(self):
+        for a in self.historylist:
+            print(a)
         
         
 class History(object):

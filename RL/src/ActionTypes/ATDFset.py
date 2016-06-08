@@ -5,8 +5,9 @@ Created on 2016. 6. 8.
 '''
 from utils.MapUtils import MapUtils
 from Resource.HistoryList import History
+from Resource.Map import Map
 
-class MyClass(object):
+class ATDFset(object):
     '''
     classdocs
     list: two attack, one attack one defence, two defence
@@ -20,8 +21,23 @@ class MyClass(object):
         Constructor
         '''
         self.actionlist = ['two attack', 'one attack one defence','two defence']
-        
-    def doAction(self, aAction, aMap, aSide):
+    
+    @staticmethod
+    def getActionList():
+        return ['two attack', 'one attack one defence','two defence']
+    
+    @staticmethod
+    def getActionName(num):
+        actionlist = ['two attack', 'one attack one defence','two defence']
+        return actionlist[num]
+    
+    @staticmethod 
+    def doActionByHistory(aAction, aHistory, aSide):
+        aMap = Map().setFromHistoryList(aHistory)
+        ATDFset.doActionByMap(aAction, aHistory, aSide)
+    
+    @staticmethod 
+    def doActionByMap(aAction, aMap, aSide):
         if aSide == 1:
                 myside = 1
                 enside = 2
