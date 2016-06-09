@@ -27,3 +27,6 @@ class LongestLineState(object):
     
     def __key(self):
         return (self.myLL, self.enLL)
+    
+    def getState(self):
+        return  (self.myLL, self.enLL)
