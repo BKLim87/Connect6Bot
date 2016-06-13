@@ -6,6 +6,7 @@ Created on 2016. 6. 8.
 from utils.MapUtils import MapUtils
 from Resource.HistoryList import History
 from Resource.Map import Map
+from utils.ProbUtils import ProbUtils
 
 class ATDFset(object):
     '''
@@ -21,6 +22,11 @@ class ATDFset(object):
         Constructor
         '''
         self.actionlist = ['two attack', 'one attack one defence','two defence']
+        self.name = 'ATDF action type'
+    
+    @staticmethod
+    def randomAction():
+        ProbUtils.pickUniform(['two attack', 'one attack one defence','two defence'])
     
     @staticmethod
     def getActionList():

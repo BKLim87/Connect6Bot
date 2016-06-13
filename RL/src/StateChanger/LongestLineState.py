@@ -30,3 +30,6 @@ class LongestLineState(object):
     
     def getState(self):
         return  (self.myLL, self.enLL)
+    
+    def __str__(self):
+        return '('+str(self.myLL)+','+str(self.enLL)+')'

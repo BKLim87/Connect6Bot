@@ -63,26 +63,31 @@ class BotTraining(object):
                 else:
                     Turn = 2
             
+            #print this match
+            print(aHistory)
+            
+            
             losebot = bot1
             if bot1.side != Turn:
                 losebot = bot2
             losebot.putLoseReward()
             
-            bot1.update()
-            bot2.update()
-            
-            #print this match
-            print(aHistory)
-            
             #learning this match
+            bot1.update(n+1)
+            bot2.update(n+1)
             
+        #print learning object
+        self.LearningObject1.print()
+            
+            
+
 
 if __name__ == "__main__":
     print('start training')
     
     LLATDF = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
     
-    BT = BotTraining(LLATDF, LLATDF, 100)
+    BT = BotTraining(LLATDF, LLATDF, 10000)
     
     BT.start()
             
