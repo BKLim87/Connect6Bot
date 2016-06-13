@@ -49,3 +49,7 @@ class Map(object):
             for j in range(0,19):
                 newMap.MapArray[i][j] = self.MapArray[i][j]
         return newMap
+    
+    def printMap(self):
+        for i in range(0,19):
+            print(self.MapArray[i])

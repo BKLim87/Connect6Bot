@@ -28,6 +28,14 @@ class BotTraining(object):
         self.LearningObject2 = LO2
         self.NumberOfGame = NoG
         
+    def isDraw(self, aHistory):
+        if aHistory.size() == 19*19:
+            aMap = Map()
+            aMap.setFromHistoryList(aHistory)
+            if MapUtils.getWinSide(aMap) == 0:
+                return True
+        return False
+        
     def start(self):
         for n in range(0,self.NumberOfGame):
             bot1side = random.randrange(1,3)
@@ -46,25 +54,33 @@ class BotTraining(object):
             
             #start one match
             while(MapUtils.getWinSide(aMap) == 0):
-                turnbot = bot1
-                if bot1.side != Turn:
-                    turnbot = bot2
-                    
-                turnstate = turnbot.LearningObject.StateChanger.getStatebyHistory(aHistory, Turn)
-                turnaction = turnbot.LearningObject.getAction(turnstate)
-                turnphase = turnbot.LearningObject.ActionType.doActionByHistory(turnaction, aHistory, Turn)
-                aHistory.updatePhase(turnphase)
-                aMap.setFromHistoryList(aHistory)
-                
-                turnbot.StateActionRewardList.append([aMap.Copy(), turnaction, RewardCalculator.getReward(aMap, turnaction, turnbot)])
-                
-                if Turn == 2:
-                    Turn = 1
-                else:
+                if self.isDraw(aHistory):
+                    print('draw, start again')
+                    aMap.printMap()
+                    aHistory = HistoryList('9,9,1')
+                    aMap = Map()
+                    aMap.setFromHistoryList(aHistory)            
                     Turn = 2
+                else:
+                    turnbot = bot1
+                    if bot1.side != Turn:
+                        turnbot = bot2
+                        
+                    turnstate = turnbot.LearningObject.StateChanger.getStatebyHistory(aHistory, Turn)
+                    turnaction = turnbot.LearningObject.getAction(turnstate)
+                    turnphase = turnbot.LearningObject.ActionType.doActionByHistory(turnaction, aHistory, Turn)
+                    aHistory.updatePhase(turnphase)
+                    aMap.setFromHistoryList(aHistory)
+                    
+                    turnbot.StateActionRewardList.append([aMap.Copy(), turnaction, RewardCalculator.getReward(aMap, turnaction, turnbot)])
+                    
+                    if Turn == 2:
+                        Turn = 1
+                    else:
+                        Turn = 2
             
             #print this match
-            print(aHistory)
+            print('Length:'+str(aHistory.size())+' Log:'+str(aHistory))
             
             
             losebot = bot1
@@ -87,7 +103,7 @@ if __name__ == "__main__":
     
     LLATDF = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
     
-    BT = BotTraining(LLATDF, LLATDF, 10000)
+    BT = BotTraining(LLATDF, LLATDF, 100)
     
     BT.start()
             

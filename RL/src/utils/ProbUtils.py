@@ -41,7 +41,10 @@ class ProbUtils(object):
     @staticmethod
     def pickUniform(alist):
         asize = len(alist)
-        return alist[random.randrange(0,asize)]
+        if asize == 0:
+            return []
+        else:
+            return alist[random.randrange(0,asize)]
     
     @staticmethod
     def pickFromItemProbList(item_list, plist):

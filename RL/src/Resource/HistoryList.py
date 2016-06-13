@@ -33,6 +33,9 @@ class HistoryList(object):
         for a in self.historylist:
             astr = astr + a.__str__() + ';'
         return astr
+    
+    def size(self):
+        return len(self.historylist)
         
         
 class History(object):

@@ -75,9 +75,10 @@ class LearningObject(object):
         print('State Type:'+self.StateChanger.name)
         print('Action Type:'+self.ActionType.name)
         print('Lamda:' + str(self.Lamda))
-        print('N dic' + str(self.Ndic))
-        print('Q dic' + str(self.Qdic))
-        print('Policy' + str(self.Policy))
+        print('N dic: ' + str(self.Ndic))
+        print('Q dic: ' + str(self.Qdic))
+        print('Policy(simply): ' + self.Policy.toStringSimply())
+        print('Policy: ' + str(self.Policy))
                 
                     
                 

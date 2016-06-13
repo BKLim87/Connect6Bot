@@ -36,4 +36,14 @@ class Policy(object):
         
         astr = astr + '}'
         return astr
+    
+    def toStringSimply(self):
+        astr = '{'
+        
+        for akey in self.dict.keys():
+            aplist = self.dict.get(akey)
+            astr = astr + str(akey) + '=' + ProbUtils.pickByArgmax(aplist[0], aplist[1])+', '
+        
+        astr = astr + '}'
+        return astr
         

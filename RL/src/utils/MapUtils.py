@@ -5,6 +5,7 @@ Created on 2016. 6. 2.
 '''
 
 import random
+from utils.ProbUtils import ProbUtils
 
 class MapUtils(object):
     '''
@@ -66,26 +67,30 @@ class MapUtils(object):
         ['vertical',[[3,5],3],1]
         direction, start point, size, side
         '''
-        Tips = []
-        if aline[0] == 'vertical':
-            Tips = [[aline[1][0][0]-1,aline[1][0][1]],[aline[1][0][0]+aline[1][1],aline[1][0][1]]]
-            pass
-        elif aline[0] == 'horizontal':
-            Tips = [[aline[1][0][0],aline[1][0][1]-1],[aline[1][0][0],aline[1][0][1]+aline[1][1]]]
-            pass
-        elif aline[0] == 'diagonal':
-            Tips = [[aline[1][0][0]-1,aline[1][0][1]-1],[aline[1][0][0]+aline[1][1],aline[1][0][1]+aline[1][1]]]
-            pass
-        elif aline[0] == 'cross':
-            Tips = [[aline[1][0][0]+1,aline[1][0][1]-1],[aline[1][0][0]-aline[1][1],aline[1][0][1]+aline[1][1]]]
-            pass
+        try:
+            Tips = []
+            if aline[0] == 'vertical':
+                Tips = [[aline[1][0][0]-1,aline[1][0][1]],[aline[1][0][0]+aline[1][1],aline[1][0][1]]]
+                pass
+            elif aline[0] == 'horizontal':
+                Tips = [[aline[1][0][0],aline[1][0][1]-1],[aline[1][0][0],aline[1][0][1]+aline[1][1]]]
+                pass
+            elif aline[0] == 'diagonal':
+                Tips = [[aline[1][0][0]-1,aline[1][0][1]-1],[aline[1][0][0]+aline[1][1],aline[1][0][1]+aline[1][1]]]
+                pass
+            elif aline[0] == 'cross':
+                Tips = [[aline[1][0][0]+1,aline[1][0][1]-1],[aline[1][0][0]-aline[1][1],aline[1][0][1]+aline[1][1]]]
+                pass
+            
+            for i in [1,0]:
+                for j in [0,1]:
+                    if Tips[i][j] == -1 or Tips[i][j] == 19:
+                        del Tips[i]
+                        break
         
-        for i in [1,0]:
-            for j in [0,1]:
-                if Tips[i][j] == -1 or Tips[i][j] == 19:
-                    del Tips[i]
-        
-        return Tips
+            return Tips
+        except IndexError:
+            print('haha')
     
     @staticmethod
     def getSideLiveSecondLongestLine(aMap, side):
@@ -224,7 +229,7 @@ class MapUtils(object):
         if aMap.MapArray[loc[0]][loc[1]] == 0:
             return True;
         return False;
-    
+
     @staticmethod
     def getStone(aMap, loc):
         return aMap.MapArray[loc[0]][loc[1]]
@@ -243,5 +248,22 @@ class MapUtils(object):
         elif MapUtils.getSideLiveLongestLineSize(aMap, 2) >= 6:
             return 2
         return 0
+    
+    @staticmethod
+    def getRandomOneNearLiveLocation(aMap, loc):
+        return ProbUtils.pickUniform(MapUtils.getNearLiveLocation(aMap, loc))
+    
+    @staticmethod
+    def getNearLiveLocation(aMap, loc):
+        x = loc[0]
+        y = loc[1]
+        llist = []
+        for i in range(x-1, x+2):
+            for j in range(y-1, y+2):
+                if i>=0 and i<19 and j>=0 and j<19:
+                    if MapUtils.isEmpty(aMap, [i,j]):
+                        llist.append([i,j])
+        return llist
+    
                                 
                             

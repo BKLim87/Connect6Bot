@@ -58,16 +58,12 @@ class ATDFset(object):
             
             if len(MyLL) == 0:
                 po1 = MapUtils.getRandomEmptySpace(aMap)
-                if MapUtils.isEmpty(aMap, [po1[0], po1[1]+1]):
-                    po2 = [po1[0], po1[1]+1]
-                elif MapUtils.isEmpty(aMap, [po1[0], po1[1]-1]):
-                    po2 = [po1[0], po1[1]-1]
-                elif MapUtils.isEmpty(aMap, [po1[0]+1, po1[1]]):
-                    po2 = [po1[0]+1, po1[1]]
-                elif MapUtils.isEmpty(aMap, [po1[0]-1, po1[1]]):
-                    po2 = [po1[0]-1, po1[1]]
-                else:
+                po2 = MapUtils.getRandomOneNearLiveLocation(aMap, po1)
+                if po2 == []:
                     po2 = MapUtils.getRandomEmptySpace(aMap)
+                    while not (po1[0] == po2[0] & po1[1] ==po2[1]):
+                        po2 = MapUtils.getRandomEmptySpace(aMap)
+                
                 ActionResult.append(History(po1[0], po1[1], myside))
                 ActionResult.append(History(po2[0], po2[1], myside))
                 
@@ -78,8 +74,12 @@ class ATDFset(object):
                 
                 if len(ActionResult) < 2:
                     MyLL2 = MapUtils.getSideLiveSecondLongestLine(aMap, myside)
-                    LL2tips = MapUtils.getLiveTips(aMap, MyLL2)
-                    ActionResult.append(History(LL2tips[0][0], LL2tips[0][1], myside))
+                    if MyLL2 == []:
+                        lo = MapUtils.getRandomEmptySpace(aMap)
+                        ActionResult.append(History(lo[0], lo[1], myside))
+                    else:
+                        LL2tips = MapUtils.getLiveTips(aMap, MyLL2)
+                        ActionResult.append(History(LL2tips[0][0], LL2tips[0][1], myside))
             
         elif aAction == 'one attack one defence':            
             MyLL = MapUtils.getSideLiveLongestLine(aMap, myside)
@@ -103,16 +103,12 @@ class ATDFset(object):
             
             if len(EnLL) == 0:
                 po1 = MapUtils.getRandomEmptySpace(aMap)
-                if MapUtils.isEmpty(aMap, [po1[0], po1[1]+1]):
-                    po2 = [po1[0], po1[1]+1]
-                elif MapUtils.isEmpty(aMap, [po1[0], po1[1]-1]):
-                    po2 = [po1[0], po1[1]-1]
-                elif MapUtils.isEmpty(aMap, [po1[0]+1, po1[1]]):
-                    po2 = [po1[0]+1, po1[1]]
-                elif MapUtils.isEmpty(aMap, [po1[0]-1, po1[1]]):
-                    po2 = [po1[0]-1, po1[1]]
-                else:
+                po2 = MapUtils.getRandomOneNearLiveLocation(aMap, po1)
+                if po2 == []:
                     po2 = MapUtils.getRandomEmptySpace(aMap)
+                    while not (po1[0] == po2[0] & po1[1] ==po2[1]):
+                        po2 = MapUtils.getRandomEmptySpace(aMap)
+                
                 ActionResult.append(History(po1[0], po1[1], myside))
                 ActionResult.append(History(po2[0], po2[1], myside))
             
@@ -124,6 +120,9 @@ class ATDFset(object):
                 
                 if len(ActionResult) < 2:
                     EnLL2 = MapUtils.getSideLiveSecondLongestLine(aMap, enside)
+                    if EnLL2 == []:
+                        lo = MapUtils.getRandomEmptySpace(aMap)
+                        ActionResult.append(History(lo[0], lo[1], myside))
                     LL2tips = MapUtils.getLiveTips(aMap, EnLL2)
                     ActionResult.append(History(LL2tips[0][0], LL2tips[0][1], myside))
                 
