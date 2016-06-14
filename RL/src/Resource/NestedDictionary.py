@@ -33,7 +33,6 @@ class NestedDictionary(collections.MutableMapping):
     
     def getNestedItem(self, firstkey, secondkey):
         return self.__getitem__(firstkey).__getitem__(secondkey)
-            
     
     def setNestedItem(self, firstkey, secondkey, value):
         if self.__contains__(firstkey):

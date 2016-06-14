@@ -23,8 +23,11 @@ class LongistLineStateChanger(object):
         '''
         Constructor
         '''
-        self.name = 'Longest Line State Changer'
         
+    @staticmethod
+    def getName():
+        return 'Longest Line State Changer'
+    
     @staticmethod
     def getStatebyHistory(aHistory, myside):
         aMap = Map()

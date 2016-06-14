@@ -67,30 +67,27 @@ class MapUtils(object):
         ['vertical',[[3,5],3],1]
         direction, start point, size, side
         '''
-        try:
-            Tips = []
-            if aline[0] == 'vertical':
-                Tips = [[aline[1][0][0]-1,aline[1][0][1]],[aline[1][0][0]+aline[1][1],aline[1][0][1]]]
-                pass
-            elif aline[0] == 'horizontal':
-                Tips = [[aline[1][0][0],aline[1][0][1]-1],[aline[1][0][0],aline[1][0][1]+aline[1][1]]]
-                pass
-            elif aline[0] == 'diagonal':
-                Tips = [[aline[1][0][0]-1,aline[1][0][1]-1],[aline[1][0][0]+aline[1][1],aline[1][0][1]+aline[1][1]]]
-                pass
-            elif aline[0] == 'cross':
-                Tips = [[aline[1][0][0]+1,aline[1][0][1]-1],[aline[1][0][0]-aline[1][1],aline[1][0][1]+aline[1][1]]]
-                pass
-            
-            for i in [1,0]:
-                for j in [0,1]:
-                    if Tips[i][j] == -1 or Tips[i][j] == 19:
-                        del Tips[i]
-                        break
+        Tips = []
+        if aline[0] == 'vertical':
+            Tips = [[aline[1][0][0]-1,aline[1][0][1]],[aline[1][0][0]+aline[1][1],aline[1][0][1]]]
+            pass
+        elif aline[0] == 'horizontal':
+            Tips = [[aline[1][0][0],aline[1][0][1]-1],[aline[1][0][0],aline[1][0][1]+aline[1][1]]]
+            pass
+        elif aline[0] == 'diagonal':
+            Tips = [[aline[1][0][0]-1,aline[1][0][1]-1],[aline[1][0][0]+aline[1][1],aline[1][0][1]+aline[1][1]]]
+            pass
+        elif aline[0] == 'cross':
+            Tips = [[aline[1][0][0]+1,aline[1][0][1]-1],[aline[1][0][0]-aline[1][1],aline[1][0][1]+aline[1][1]]]
+            pass
         
-            return Tips
-        except IndexError:
-            print('haha')
+        for i in [1,0]:
+            for j in [0,1]:
+                if Tips[i][j] == -1 or Tips[i][j] == 19:
+                    del Tips[i]
+                    break
+    
+        return Tips
     
     @staticmethod
     def getSideLiveSecondLongestLine(aMap, side):
@@ -101,8 +98,12 @@ class MapUtils(object):
         
         aLongest = livelines[0]
         aSecond = livelines[1]
+        if aLongest[1][1] < aSecond[1][1]:
+            aSecond = livelines[0]
+            aLongest = livelines[1]
         
-        for aline in livelines:
+        for i in range(2, len(livelines)):
+            aline = livelines[i]
             if aLongest[1][1] <= aline[1][1]:
                 aSecond = aLongest
                 aLongest = aline
@@ -236,10 +237,33 @@ class MapUtils(object):
     
     @staticmethod
     def getRandomEmptySpace(aMap):
-        aloc = [random.randrange(0,19), random.randrange(0,19)]
-        while MapUtils.isEmpty(aMap, aloc) == False:
+        for i in range(0,10):
             aloc = [random.randrange(0,19), random.randrange(0,19)]
-        return aloc
+            if MapUtils.isEmpty(aMap, aloc) == True:
+                return aloc
+        
+        Emptylist = []
+        for i in range(0,19):
+            for j in range(0,19):
+                if MapUtils.isEmpty(aMap, [i,j]) == True:
+                    Emptylist.append([i,j])
+        return ProbUtils.pickUniform(Emptylist)
+    
+    @staticmethod
+    def getRandomEmptySpaceExceptOne(aMap, aloc):
+        for i in range(0,10):
+            bloc = [random.randrange(0,19), random.randrange(0,19)]
+            if MapUtils.isEmpty(aMap, bloc) == True:
+                if not bloc == aloc:
+                    return bloc
+        
+        Emptylist = []
+        for i in range(0,19):
+            for j in range(0,19):
+                if MapUtils.isEmpty(aMap, [i,j]) == True:
+                    if not aloc == [i,j]:
+                        Emptylist.append([i,j])
+        return ProbUtils.pickUniform(Emptylist)
     
     @staticmethod
     def getWinSide(aMap):

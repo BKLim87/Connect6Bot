@@ -72,8 +72,8 @@ class LearningObject(object):
             self.Policy.update(aState, ProbUtils.changetoGLIE(tempactionlist, tempqvlist, kth_episode))
             
     def print(self):
-        print('State Type:'+self.StateChanger.name)
-        print('Action Type:'+self.ActionType.name)
+        print('State Type:'+self.StateChanger.getName())
+        print('Action Type:'+self.ActionType.getName())
         print('Lamda:' + str(self.Lamda))
         print('N dic: ' + str(self.Ndic))
         print('Q dic: ' + str(self.Qdic))

@@ -33,3 +33,12 @@ class LongestLineState(object):
     
     def __str__(self):
         return '('+str(self.myLL)+','+str(self.enLL)+')'
+
+if __name__ == "__main__":
+    a = LongestLineState(1,2)
+    b = LongestLineState(1,2)
+    c = LongestLineState(2,3)
+    
+    print(a.getState() == b.getState())
+    
+    print('haha')
