@@ -68,6 +68,8 @@ class BotTraining(object):
                         turnbot = bot2
                         
                     turnstate = turnbot.LearningObject.StateChanger.getStatebyHistory(aHistory, Turn)
+                    if turnstate[0] == 6 or turnstate[1] == 6:
+                        print('here')
                     turnaction = turnbot.LearningObject.getAction(turnstate)
                     turnphase = turnbot.LearningObject.ActionType.doActionByHistory(turnaction, aHistory, Turn)
                     aHistory.updatePhase(turnphase)

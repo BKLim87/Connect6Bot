@@ -64,7 +64,7 @@ class LearningObject(object):
             tempactionlist = self.ActionType.getActionList()
             for aAction in tempactionlist:
                 if self.Qdic.isContain(aState, aAction):
-                    tempqvlist.append(self.Ndic.getNestedItem(aState, aAction))
+                    tempqvlist.append(self.Qdic.getNestedItem(aState, aAction))
                 else:
                     tempqvlist.append(0)
             
