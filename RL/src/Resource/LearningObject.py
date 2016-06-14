@@ -38,6 +38,9 @@ class LearningObject(object):
             aState = self.StateChanger.getStatebyMap(aSAR[0], side)
             aAction = aSAR[1]
             aReward = aSAR[2]
+            
+            if aState[0] == 6:
+                print('here')
 
             if aState in FirstSeenState:
                 pass

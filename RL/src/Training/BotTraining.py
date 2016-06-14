@@ -72,10 +72,11 @@ class BotTraining(object):
                         print('here')
                     turnaction = turnbot.LearningObject.getAction(turnstate)
                     turnphase = turnbot.LearningObject.ActionType.doActionByHistory(turnaction, aHistory, Turn)
-                    aHistory.updatePhase(turnphase)
-                    aMap.setFromHistoryList(aHistory)
                     
                     turnbot.StateActionRewardList.append([aMap.Copy(), turnaction, RewardCalculator.getReward(aMap, turnaction, turnbot)])
+                    
+                    aHistory.updatePhase(turnphase)
+                    aMap.setFromHistoryList(aHistory)
                     
                     if Turn == 2:
                         Turn = 1
