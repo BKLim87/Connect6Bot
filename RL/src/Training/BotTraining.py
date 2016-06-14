@@ -54,13 +54,6 @@ class BotTraining(object):
             
             #start one match
             while(MapUtils.getWinSide(aMap) == 0):
-                if aHistory.size()>300:
-                    print('too long, start again')
-                    aHistory = HistoryList('9,9,1')
-                    aMap = Map()
-                    aMap.setFromHistoryList(aHistory)            
-                    Turn = 2
-                    
                 if self.isDraw(aHistory):
                     print('draw, start again')
                     aMap.printMap()
@@ -111,7 +104,7 @@ if __name__ == "__main__":
     
     LLATDF = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
     
-    BT = BotTraining(LLATDF, LLATDF, 10)
+    BT = BotTraining(LLATDF, LLATDF, 30)
     
     BT.start()
             

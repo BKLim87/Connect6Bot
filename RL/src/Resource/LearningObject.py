@@ -46,13 +46,13 @@ class LearningObject(object):
                 SApair = (aState, aAction)
                 
                 #update Ndic
-                if aState in self.Ndic:
+                if self.Ndic.isContain(aState, aAction):
                     self.Ndic.setNestedItem(aState, aAction, self.Ndic.getNestedItem(aState, aAction)+1)
                 else:
                     self.Ndic.setNestedItem(aState, aAction, 1)
                 
                 #update Qdic
-                if aState in self.Qdic:
+                if self.Qdic.isContain(aState, aAction):
                     oldQ = self.Qdic.getNestedItem(aState, aAction)
                     self.Qdic.setNestedItem(aState, aAction, oldQ + (lastReward - oldQ)/self.Ndic.getNestedItem(aState, aAction))
                 else:
@@ -63,7 +63,7 @@ class LearningObject(object):
             tempqvlist = []
             tempactionlist = self.ActionType.getActionList()
             for aAction in tempactionlist:
-                if self.Qdic.containNestedItem(aState, aAction):
+                if self.Qdic.isContain(aState, aAction):
                     tempqvlist.append(self.Ndic.getNestedItem(aState, aAction))
                 else:
                     tempqvlist.append(0)
@@ -78,7 +78,6 @@ class LearningObject(object):
         print('N dic: ' + str(self.Ndic))
         print('Q dic: ' + str(self.Qdic))
         print('Policy(simply): ' + self.Policy.toStringSimply())
-        print('Policy: ' + str(self.Policy))
                 
                     
                 

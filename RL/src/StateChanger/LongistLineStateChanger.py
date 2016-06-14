@@ -5,7 +5,6 @@ Created on 2016. 6. 2.
 '''
 from utils.MapUtils import MapUtils
 from Resource.Map import Map
-from StateChanger.LongestLineState import LongestLineState
 
 class LongistLineStateChanger(object):
     '''
@@ -40,8 +39,8 @@ class LongistLineStateChanger(object):
         WhiteSideLL = MapUtils.getSideLiveLongestLineSize(aMap, 2)
         
         if myside == 1:
-            return LongestLineState(BlackSideLL, WhiteSideLL)
+            return (BlackSideLL, WhiteSideLL)
         else:
-            return LongestLineState(WhiteSideLL, BlackSideLL)
+            return (WhiteSideLL, BlackSideLL)
         
         

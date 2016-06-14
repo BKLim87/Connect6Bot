@@ -47,6 +47,11 @@ class NestedDictionary(collections.MutableMapping):
         else:
             return False
         
+    def isContain(self, firstkey, secondkey):
+        if self.__contains__(firstkey) and self.__getitem__(firstkey).__contains__(secondkey):
+            return True
+        return False
+        
     def __str__(self):
         astr = '{'
         for akey in self.keys():

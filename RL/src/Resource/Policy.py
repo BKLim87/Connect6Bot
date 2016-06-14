@@ -19,8 +19,8 @@ class Policy(object):
         
     def getAction(self, state, ActionType):
         if state in self.dict:
-            apl = self.Policy.get(state)
-            return ProbUtils.getOnefromProblist(apl[0], apl[1])
+            apl = self.dict.get(state)
+            return ProbUtils.pickFromItemProbList(apl[0], apl[1])
         
         else:
             return ProbUtils.pickUniform(ActionType.getActionList())
