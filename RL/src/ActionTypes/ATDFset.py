@@ -75,11 +75,15 @@ class ATDFset(object):
                     POs.append(atip)
                 
                 if len(POs) < 2:
-                    MyLL2 = MapUtils.getSideLiveSecondLongestLine(aMap, myside)
-                    if MyLL2 == []:
-                        POs.append(MapUtils.getRandomEmptySpace(aMap))
+                    aTE = MapUtils.getLiveTipExtension(aMap, MyLL, POs[0])
+                    if not aTE == []:
+                        POs.append(aTE)
                     else:
-                        POs.append(MapUtils.getLiveTips(aMap, MyLL2)[0])
+                        MyLL2 = MapUtils.getSideLiveSecondLongestLine(aMap, myside)
+                        if MyLL2 == []:
+                            POs.append(MapUtils.getRandomEmptySpace(aMap))
+                        else:
+                            POs.append(MapUtils.getLiveTips(aMap, MyLL2)[0])
             
             
             

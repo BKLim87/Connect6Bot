@@ -80,7 +80,7 @@ class LearningObject(object):
         print('Lamda:' + str(self.Lamda))
         print('N dic: ' + str(self.Ndic))
         print('Q dic: ' + str(self.Qdic))
-        print('Policy(simply): ' + self.Policy.toStringSimply())
+        print('Policy(simply): ' + self.Policy.toStringByStateAction(self.StateChanger.getName(), self.ActionType.getName()))
                 
                     
                 

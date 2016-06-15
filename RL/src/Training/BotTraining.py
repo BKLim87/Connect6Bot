@@ -37,6 +37,7 @@ class BotTraining(object):
         return False
         
     def start(self):
+        MatchResult = [0,0,0]
         for n in range(0,self.NumberOfGame):
             bot1side = random.randrange(1,3)
             if bot1side == 1:
@@ -55,12 +56,7 @@ class BotTraining(object):
             #start one match
             while(MapUtils.getWinSide(aMap) == 0):
                 if self.isDraw(aHistory):
-                    print('draw, start again')
-                    aMap.printMap()
-                    aHistory = HistoryList('9,9,1')
-                    aMap = Map()
-                    aMap.setFromHistoryList(aHistory)            
-                    Turn = 2
+                    break
                 
                 else:
                     turnbot = bot1
@@ -68,15 +64,14 @@ class BotTraining(object):
                         turnbot = bot2
                         
                     turnstate = turnbot.LearningObject.StateChanger.getStatebyHistory(aHistory, Turn)
-                    if turnstate[0] == 6 or turnstate[1] == 6:
-                        print('here')
                     turnaction = turnbot.LearningObject.getAction(turnstate)
                     turnphase = turnbot.LearningObject.ActionType.doActionByHistory(turnaction, aHistory, Turn)
-                    
-                    turnbot.StateActionRewardList.append([aMap.Copy(), turnaction, RewardCalculator.getReward(aMap, turnaction, turnbot)])
+                    turnMap = aMap.Copy()
                     
                     aHistory.updatePhase(turnphase)
                     aMap.setFromHistoryList(aHistory)
+                    
+                    turnbot.StateActionRewardList.append([turnMap, turnaction, RewardCalculator.getReward(aMap, turnaction, turnbot)])
                     
                     if Turn == 2:
                         Turn = 1
@@ -86,15 +81,24 @@ class BotTraining(object):
             #print this match
             print('Length:'+str(aHistory.size())+' Log:'+str(aHistory))
             
-            
-            losebot = bot1
-            if bot1.side != Turn:
-                losebot = bot2
-            losebot.putLoseReward()
+            WinResult = MapUtils.getWinSide(aMap)
+            if WinResult == 0:
+                pass
+            else:
+                if bot1.side == WinResult:
+                    losebot = bot2
+                else:
+                    losebot = bot1
+                losebot.putLoseReward()
+                
+            MatchResult[WinResult] = MatchResult[WinResult] + 1
             
             #learning this match
             bot1.update(n+1)
             bot2.update(n+1)
+            
+        #print training result
+        print('#draw:'+str(MatchResult[0])+', #BlackWin:'+str(MatchResult[1])+' #WhiteWin:'+str(MatchResult[2]))
             
         #print learning object
         self.LearningObject1.print()
@@ -107,7 +111,7 @@ if __name__ == "__main__":
     
     LLATDF = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
     
-    BT = BotTraining(LLATDF, LLATDF, 30)
+    BT = BotTraining(LLATDF, LLATDF, 50)
     
     BT.start()
             

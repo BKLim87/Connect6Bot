@@ -46,4 +46,17 @@ class Policy(object):
         
         astr = astr + '}'
         return astr
+    
+    def toStringByStateAction(self, StateName, ActionName):
+        if StateName == 'Longest Line State Changer' and ActionName == 'ATDF action type':
+            astr = '{'
+            for i in range(0,6):
+                for j in range(0,6):
+                    if (i,j) in self.dict:
+                        aplist = self.dict.get((i,j))
+                        astr = astr + str((i,j)) + '=' + ProbUtils.pickByArgmax(aplist[0], aplist[1])+', '
+            astr = astr + '}'
+            return astr
+        else:
+            return self.toStringSimply()
         

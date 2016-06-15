@@ -51,6 +51,44 @@ class MapUtils(object):
         return bflag 
     
     @staticmethod
+    def getLiveTipExtension(aMap, aline, aTip):
+        aTE = MapUtils.getTipExtension(aline, aTip)
+        if not aTE == []:
+            if MapUtils.isEmpty(aMap, aTE):
+                return aTE
+        return []
+    
+    @staticmethod
+    def getTipExtension(aline, aTip):
+        if aline[0] == 'vertical':
+            if aTip == [aline[1][0][0]-1,aline[1][0][1]]:
+                te = [aline[1][0][0]-2,aline[1][0][1]]
+            else:
+                te = [aline[1][0][0]+aline[1][1]+1,aline[1][0][1]]
+        elif aline[0] == 'horizontal':
+            if aTip == [aline[1][0][0],aline[1][0][1]-1]:
+                te = [aline[1][0][0],aline[1][0][1]-2]
+            else:
+                te = [aline[1][0][0],aline[1][0][1]+aline[1][1]+1]
+        elif aline[0] == 'diagonal':
+            if aTip == [aline[1][0][0]-1,aline[1][0][1]-1]:
+                te = [aline[1][0][0]-2,aline[1][0][1]-2]
+            else:
+                te = [aline[1][0][0]+aline[1][1]+1,aline[1][0][1]+aline[1][1]+1]
+        else:
+            if aTip == [aline[1][0][0]+1,aline[1][0][1]-1]:
+                te = [aline[1][0][0]+2,aline[1][0][1]-2]
+            else:
+                te = [aline[1][0][0]-aline[1][1]-1,aline[1][0][1]+aline[1][1]+1]
+        
+        if te[0] == -1 or te[0] == 19:
+            return []
+        elif te[1] == -1 or te[1] == 19:
+            return []
+        else:
+            return te
+    
+    @staticmethod
     def getLiveTips(aMap, aline):
         tips = MapUtils.getTips(aline)
         livetips = []
@@ -58,7 +96,6 @@ class MapUtils(object):
             if MapUtils.isEmpty(aMap, ati):
                 livetips.append(ati)
         return livetips
-        
     
     @staticmethod
     def getTips(aline):
@@ -267,11 +304,12 @@ class MapUtils(object):
     
     @staticmethod
     def getWinSide(aMap):
-        if MapUtils.getSideLiveLongestLineSize(aMap, 1) >= 6:
-            return 1
-        elif MapUtils.getSideLiveLongestLineSize(aMap, 2) >= 6:
-            return 2
-        return 0
+        for aSide in [1,2]:
+            Lines = MapUtils.getSideLines(aMap, aSide)
+            for aline in Lines:
+                if aline[1][1] >= 6:
+                    return aSide
+        return 0 
     
     @staticmethod
     def getRandomOneNearLiveLocation(aMap, loc):
@@ -288,6 +326,7 @@ class MapUtils(object):
                     if MapUtils.isEmpty(aMap, [i,j]):
                         llist.append([i,j])
         return llist
+    
     
                                 
                             
