@@ -6,6 +6,8 @@ Created on 2016. 6. 8.
 from utils.ProbUtils import ProbUtils
 from Resource.NestedDictionary import NestedDictionary
 from Resource.Policy import Policy
+import pickle
+import time
 
 class LearningObject(object):
     '''
@@ -46,7 +48,6 @@ class LearningObject(object):
                 pass
             else:                
                 FirstSeenState.append(aState)                
-                SApair = (aState, aAction)
                 
                 #update Ndic
                 if self.Ndic.isContain(aState, aAction):
@@ -81,8 +82,35 @@ class LearningObject(object):
         print('N dic: ' + str(self.Ndic))
         print('Q dic: ' + str(self.Qdic))
         print('Policy(simply): ' + self.Policy.toStringByStateAction(self.StateChanger.getName(), self.ActionType.getName()))
-                
+        
+    def save_object(self):
+        filedic = '../../LeraningData/'
+        filename = self.StateChanger.getName()+'-'+self.ActionType.getName()+'-'+str(self.Lamda)+'-'+str(time.time())+'.LO'
+        f = open(filedic+filename, 'wb')
+        pickle.dump(self, f)
+        f.close()
+        
+    def load_object(self, filepath):
+        f = open(filepath, 'rb')
+        loadLO = pickle.load(f)
+        
+        self.StateChanger = loadLO.StateChanger
+        self.ActionType = loadLO.ActionType
+        self.Lamda = loadLO.Lamda         
+        self.Policy = loadLO.Policy
+        self.Ndic = loadLO.Ndic
+        self.Qdic = loadLO.Qdic
+         
+        f.close()
                     
+if __name__ == "__main__":
+    print('start load saved data')
+    
+    aLL = LearningObject('','','')
+    aLL.load_object('../../LearningData/test.LO')
+    
+    print('haha')
+    
                 
                   
                      

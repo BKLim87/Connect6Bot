@@ -4,6 +4,7 @@ Created on 2016. 6. 8.
 @author: bklim
 '''
 from Training.RewardCalculator import RewardCalculator
+from Resource.LearningObject import LearningObject
 
 class Bot(object):
     '''
@@ -28,3 +29,14 @@ class Bot(object):
     def update(self, kth_episode):
         if len(self.StateActionRewardList) > 0:
             self.LearningObject.update(self.StateActionRewardList, self.side, kth_episode)
+            
+    def loadSavedLearningObject(self, filepath, aside):
+        aLL = LearningObject('','','')
+        aLL.load_object(filepath)
+        
+        self.LearningObject = aLL
+        self.side = aside 
+        
+    
+                    
+    
