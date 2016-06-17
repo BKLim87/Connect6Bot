@@ -1,15 +1,21 @@
 import sys
 
-sys.path.append('../')
-
-from Resource.Bot import Bot
-from Resource.HistoryList import HistoryList
-from Resource.Map import Map
-
-print('start get a action from saved policy')
-
 if len(sys.argv) == 4:
     SavedLOpath = sys.argv[1]
+    
+    importpath = SavedLOpath
+    tempimportpathlist = importpath.split('/')
+    slashnum = importpath.count('/')
+    importpath = ''
+    for i in range(0, slashnum - 1):
+        importpath = importpath + tempimportpathlist[i] + '/'
+    importpath = importpath + 'src/'
+    
+    sys.path.append(importpath)
+    from Resource.Bot import Bot
+    from Resource.HistoryList import HistoryList
+    from Resource.Map import Map
+    
     Side = int(sys.argv[2])
     HistoryTxt = sys.argv[3]
     
