@@ -12,7 +12,7 @@ print('start get a action from saved policy')
 if len(sys.argv) == 2:
     print('start training')
     
-    TrainingLength = sys.argv[1]
+    TrainingLength = int(sys.argv[1])
     
     LLATDF = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
     

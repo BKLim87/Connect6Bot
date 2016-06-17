@@ -10,7 +10,7 @@ print('start get a action from saved policy')
 
 if len(sys.argv) == 4:
     SavedLOpath = sys.argv[1]
-    Side = sys.argv[2]
+    Side = int(sys.argv[2])
     HistoryTxt = sys.argv[3]
     
     aBot = Bot('','')
