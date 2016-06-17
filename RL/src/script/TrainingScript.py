@@ -2,32 +2,28 @@ import sys
 
 sys.path.append('../')
 
-from Resource.Bot import Bot
-from Resource.HistoryList import HistoryList
-from Resource.Map import Map
+from Resource.LearningObject import LearningObject
+from ActionTypes.ATDFset import ATDFset
+from Training.BotTraining import BotTraining
+from StateChanger.LongistLineStateChanger import LongistLineStateChanger
 
 print('start get a action from saved policy')
 
-if len(sys.argv) == 4:
-    SavedLOpath = sys.argv[1]
-    Side = sys.argv[2]
-    HistoryTxt = sys.argv[3]
+if len(sys.argv) == 2:
+    print('start training')
     
-    aBot = Bot('','')
-    aBot.loadSavedLearningObject(SavedLOpath, Side)
+    TrainingLength = sys.argv[1]
     
-    aHistoryList = HistoryList(HistoryTxt)
-    aMap = Map()
-    aMap.setFromHistoryList(aHistoryList)
+    LLATDF = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
     
-    turnstate = aBot.LearningObject.StateChanger.getStatebyHistory(aHistoryList, Side)
-    turnaction = aBot.LearningObject.getAction(turnstate)
-    turnphase = aBot.LearningObject.ActionType.doActionByHistory(turnaction, aHistoryList, Side)
+    BT = BotTraining(LLATDF, LLATDF, TrainingLength)
     
-    print(str(turnphase[0])+';'+str(turnphase[1]))
+    BT.start()
+    
+    LLATDF.save_object()
     
 
 else:
-    print('usage: python getOneActionScript "Learning Object file path" "Side" "History Text"')
+    print('usage: python TrainingScript #size')
     pass
 
