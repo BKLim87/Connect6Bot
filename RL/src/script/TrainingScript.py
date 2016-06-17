@@ -7,7 +7,7 @@ from ActionTypes.ATDFset import ATDFset
 from Training.BotTraining import BotTraining
 from StateChanger.LongistLineStateChanger import LongistLineStateChanger
 
-print('start get a action from saved policy')
+print('start simple training')
 
 if len(sys.argv) == 2:
     print('start training')
