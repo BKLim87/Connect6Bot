@@ -84,7 +84,7 @@ class LearningObject(object):
         print('Policy(simply): ' + self.Policy.toStringByStateAction(self.StateChanger.getName(), self.ActionType.getName()))
         
     def save_object(self):
-        filedic = '../../LeraningData/'
+        filedic = '../../LearningData/'
         filename = self.StateChanger.getName()+'-'+self.ActionType.getName()+'-'+str(self.Lamda)+'-'+str(time.time())+'.LO'
         f = open(filedic+filename, 'wb')
         pickle.dump(self, f)

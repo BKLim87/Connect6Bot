@@ -121,7 +121,7 @@ if __name__ == "__main__":
     
     LLATDF = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
     
-    BT = BotTraining(LLATDF, LLATDF, 200)
+    BT = BotTraining(LLATDF, LLATDF, 2)
     
     BT.start()
     
