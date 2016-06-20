@@ -123,11 +123,11 @@ if __name__ == "__main__":
     LO1 = LLATDF1
     LO2 = LLATDFR1
     
-    BT = BotTraining(LLATDF1, LLATDFR1, 2000)
+    BT = BotTraining(LLATDF1, LLATDFR1, 20)
     
     BT.start()
-    '''
-    LLATDF.save_object()
-    '''
+    
+    LLATDF1.save_object()
+    LLATDFR1.save_object()
             
         
