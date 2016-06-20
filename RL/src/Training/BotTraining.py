@@ -15,7 +15,7 @@ from ActionTypes.ATDFset import ATDFset
 from ActionTypes.ATDFRset import ATDFRset
 from Training.RewardCalculator import RewardCalculator
 from utils.HistoryUtils import HistoryUtils
-
+from utils.MatchResult import MatchResult
 
 class BotTraining(object):
     '''
@@ -29,11 +29,8 @@ class BotTraining(object):
         self.LearningObject2 = LO2
         self.NumberOfGame = NoG
         self.TimeResult = [0,0]
-        self.MatchResult = [0,0,0]
+        self.MatchResult = MatchResult(LO1, LO2)
         
-    def printWinResult(self):
-        print('#draw:'+str(self.MatchResult[0])+', #BlackWin:'+str(self.MatchResult[1])+' #WhiteWin:'+str(self.MatchResult[2]))
-    
     def printTimeResult(self):
         TotalTime = sum(self.TimeResult)
         SimulateTime = self.TimeResult[0]
@@ -98,7 +95,7 @@ class BotTraining(object):
                     losebot = bot1
                 losebot.putLoseReward()
                 
-            self.MatchResult[WinResult] = self.MatchResult[WinResult] + 1
+            self.MatchResult.update(bot1, bot2, WinResult)
             
             UpdateTimeStart = time.time()
             
@@ -110,7 +107,7 @@ class BotTraining(object):
             
         #print training result
         self.printTimeResult()
-        self.printWinResult()
+        self.MatchResult.print()
             
         #print learning object
         self.LearningObject1.print()
@@ -123,8 +120,10 @@ if __name__ == "__main__":
     
     LLATDF1 = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
     LLATDFR1 = LearningObject(LongistLineStateChanger(), ATDFRset(), 1)
+    LO1 = LLATDF1
+    LO2 = LLATDFR1
     
-    BT = BotTraining(LLATDF1, LLATDFR1, 100)
+    BT = BotTraining(LLATDF1, LLATDFR1, 2000)
     
     BT.start()
     '''

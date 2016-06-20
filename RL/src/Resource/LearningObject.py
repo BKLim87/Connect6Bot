@@ -26,6 +26,9 @@ class LearningObject(object):
         self.Policy = Policy()
         self.Ndic = NestedDictionary()
         self.Qdic = NestedDictionary()
+        
+    def getName(self):
+        return '('+self.StateChanger.getName()+','+self.ActionType.getName()+')'
     
     def getAction(self, state):
         return self.Policy.getAction(state, self.ActionType)

@@ -49,4 +49,9 @@ class MatchResult(object):
             return 1
         
     def print(self):
-        print("by color: #Black_win %d, #White_win %d, #Draw %d" % (self.Result[0][0][0]+self.Result[1][0][0], self.Result[0][1][0]+self.Result[1][1][0]), self.Result[0][0][2]+self.Result[0][1][2])
+        print('LO1:'+self.LO1.getName()+', LO2:'+self.LO2.getName())
+        print("by color: #Black_win %d, #White_win %d, #Draw %d" % (self.Result[0][0][0]+self.Result[1][0][0], self.Result[0][1][0]+self.Result[1][1][0], self.Result[0][0][2]+self.Result[0][1][2]))
+        print("by Learning Object: #LO1_win %d, #LO2_win %d, #Draw %d" % (self.Result[0][0][0]+self.Result[0][1][0], self.Result[1][0][0]+self.Result[1][1][0], self.Result[0][0][2]+self.Result[0][1][2]))
+        
+        
+    
