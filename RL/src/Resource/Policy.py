@@ -48,7 +48,7 @@ class Policy(object):
         return astr
     
     def toStringByStateAction(self, StateName, ActionName):
-        if StateName == 'Longest Line State Changer' and ActionName == 'ATDF action type':
+        if StateName == 'Longest Line State Changer' and (ActionName == 'ATDF action type' or ActionName == 'ATDFR action type'):
             astr = '{'
             for i in range(0,6):
                 for j in range(0,6):
