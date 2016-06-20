@@ -12,6 +12,7 @@ from utils.MapUtils import MapUtils
 from Resource.HistoryList import HistoryList
 from StateChanger.LongistLineStateChanger import LongistLineStateChanger
 from ActionTypes.ATDFset import ATDFset
+from ActionTypes.ATDFRset import ATDFRset
 from Training.RewardCalculator import RewardCalculator
 from utils.HistoryUtils import HistoryUtils
 
@@ -113,18 +114,21 @@ class BotTraining(object):
             
         #print learning object
         self.LearningObject1.print()
+        self.LearningObject2.print()
                 
 
 
 if __name__ == "__main__":
     print('start training')
     
-    LLATDF = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
+    LLATDF1 = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
+    LLATDFR1 = LearningObject(LongistLineStateChanger(), ATDFRset(), 1)
     
-    BT = BotTraining(LLATDF, LLATDF, 2)
+    BT = BotTraining(LLATDF1, LLATDFR1, 10)
     
     BT.start()
-    
+    '''
     LLATDF.save_object()
+    '''
             
         
