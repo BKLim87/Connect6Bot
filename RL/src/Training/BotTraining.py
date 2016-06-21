@@ -21,12 +21,14 @@ class BotTraining(object):
     '''
     classdocs
     '''
-    def __init__(self, LO1, LO2, NoG):
+    def __init__(self, LO1, LF1, LO2, LF2, NoG):
         '''
         Constructor
         '''
         self.LearningObject1 = LO1
+        self.LearningFlag1 = LF1
         self.LearningObject2 = LO2
+        self.LEarningFlag2 = LF2
         self.NumberOfGame = NoG
         self.TimeResult = [0,0]
         self.MatchResult = MatchResult(LO1, LO2)
@@ -100,8 +102,10 @@ class BotTraining(object):
             UpdateTimeStart = time.time()
             
             #learning this match
-            bot1.update(n+1)
-            bot2.update(n+1)
+            if self.LearningFlag1:
+                bot1.update(n+1)
+            if self.LEarningFlag2:
+                bot2.update(n+1)
             
             self.TimeResult[1] = self.TimeResult[1] + (time.time() - UpdateTimeStart)
             
@@ -123,7 +127,7 @@ if __name__ == "__main__":
     LO1 = LLATDF1
     LO2 = LLATDFR1
     
-    BT = BotTraining(LLATDF1, LLATDFR1, 20)
+    BT = BotTraining(LLATDF1, LLATDFR1, 20000)
     
     BT.start()
     
