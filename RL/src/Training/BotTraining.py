@@ -28,7 +28,7 @@ class BotTraining(object):
         self.LearningObject1 = LO1
         self.LearningFlag1 = LF1
         self.LearningObject2 = LO2
-        self.LEarningFlag2 = LF2
+        self.LearningFlag2 = LF2
         self.NumberOfGame = NoG
         self.TimeResult = [0,0]
         self.MatchResult = MatchResult(LO1, LO2)
@@ -104,7 +104,7 @@ class BotTraining(object):
             #learning this match
             if self.LearningFlag1:
                 bot1.update(n+1)
-            if self.LEarningFlag2:
+            if self.LearningFlag2:
                 bot2.update(n+1)
             
             self.TimeResult[1] = self.TimeResult[1] + (time.time() - UpdateTimeStart)
@@ -116,22 +116,27 @@ class BotTraining(object):
         #print learning object
         self.LearningObject1.print()
         self.LearningObject2.print()
+        
+        if self.LearningFlag1:
+            print('save LearningObject1')
+            self.LearningObject1.save_object()
+        if self.LearningFlag2:
+            print('save LearningObject2')
+            self.LearningObject2.save_object()
                 
 
 
 if __name__ == "__main__":
     print('start training')
     
-    LLATDF1 = LearningObject(LongistLineStateChanger(), ATDFset(), 1)
+    LLATDF1 = LearningObject('','','')
+    LLATDF1.load_object('../../LearningData/LLATDF2000.LO')
     LLATDFR1 = LearningObject(LongistLineStateChanger(), ATDFRset(), 1)
     LO1 = LLATDF1
     LO2 = LLATDFR1
     
-    BT = BotTraining(LLATDF1, LLATDFR1, 20000)
+    BT = BotTraining(LO1, False, LO2, True, 200)
     
     BT.start()
-    
-    LLATDF1.save_object()
-    LLATDFR1.save_object()
             
         
