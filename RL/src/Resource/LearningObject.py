@@ -39,6 +39,17 @@ class LearningObject(object):
         
         lastReward = StateActionRewardList[len(StateActionRewardList)-1][2]
         
+        Glist = []
+        whereflag = len(StateActionRewardList)-1
+        for i in range(0, len(StateActionRewardList)):
+            if i==0:
+                Glist.append(lastReward)
+            else:
+                
+                Glist.insert(0, StateActionRewardList[whereflag][2]+(self.Lamda*Glist[0]))
+            whereflag -= 1
+        
+        whereflag = 0
         for aSAR in StateActionRewardList:
             aState = self.StateChanger.getStatebyMap(aSAR[0], side)
             aAction = aSAR[1]
@@ -61,9 +72,10 @@ class LearningObject(object):
                 #update Qdic
                 if self.Qdic.isContain(aState, aAction):
                     oldQ = self.Qdic.getNestedItem(aState, aAction)
-                    self.Qdic.setNestedItem(aState, aAction, oldQ + (lastReward - oldQ)/self.Ndic.getNestedItem(aState, aAction))
+                    self.Qdic.setNestedItem(aState, aAction, oldQ + (Glist[whereflag] - oldQ)/self.Ndic.getNestedItem(aState, aAction))
                 else:
-                    self.Qdic.setNestedItem(aState, aAction, lastReward)
+                    self.Qdic.setNestedItem(aState, aAction, Glist[whereflag])
+            whereflag += 1
                     
         #update Policy
         for aState in self.Ndic.keys():
