@@ -129,13 +129,14 @@ class BotTraining(object):
 if __name__ == "__main__":
     print('start training')
     
-    LLATDF1 = LearningObject('','','')
-    LLATDF1.load_object('../../LearningData/LLATDF2000.LO')
+    LLATDF2000 = LearningObject('','','')
+    LLATDF2000.load_object('../../LearningData/LLATDF2000.LO')
+    LLATDF1 = LearningObject(LongistLineStateChanger(), ATDFset, 0.95)
     LLATDFR1 = LearningObject(LongistLineStateChanger(), ATDFRset(), 1)
     LO1 = LLATDF1
     LO2 = LLATDFR1
     
-    BT = BotTraining(LO1, False, LO2, True, 200)
+    BT = BotTraining(LO1, True, LO1, True, 2000)
     
     BT.start()
             
