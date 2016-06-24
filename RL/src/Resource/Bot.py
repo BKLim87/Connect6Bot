@@ -26,9 +26,9 @@ class Bot(object):
             self.StateActionRewardList[lastorder - 1][2] = RewardCalculator.getLoseReward() 
             
     #def update(self, LearningWay):
-    def update(self, kth_episode):
+    def update(self):
         if len(self.StateActionRewardList) > 0:
-            self.LearningObject.update(self.StateActionRewardList, self.side, kth_episode)
+            self.LearningObject.update(self.StateActionRewardList, self.side)
             
     def loadSavedLearningObject(self, filepath, aside):
         aLL = LearningObject('','','')

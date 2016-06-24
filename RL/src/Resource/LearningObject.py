@@ -15,7 +15,7 @@ class LearningObject(object):
     '''
 
 
-    def __init__(self, aStateChanger, aActionType, alamda):
+    def __init__(self, aStateChanger, aActionType, alamda, learningpolicy):
         '''
         Constructor
         '''
@@ -23,68 +23,20 @@ class LearningObject(object):
         self.ActionType = aActionType
         self.Lamda = alamda 
         
-        self.Policy = Policy()
         self.Ndic = NestedDictionary()
         self.Qdic = NestedDictionary()
+        
+        self.LearningPolicy = learningpolicy
         
     def getName(self):
         return '('+self.StateChanger.getName()+','+self.ActionType.getName()+')'
     
     def getAction(self, state):
-        return self.Policy.getAction(state, self.ActionType)
+        return self.LearningPolicy.getAction(self.Qdic, state, self.ActionType)
+        #return self.Policy.getAction(state, self.ActionType)
         
-    def update(self, StateActionRewardList, side, kth_episode):
-        # MC first seen
-        FirstSeenState = []
-        
-        lastReward = StateActionRewardList[len(StateActionRewardList)-1][2]
-        
-        Glist = []
-        whereflag = len(StateActionRewardList)-1
-        for i in range(0, len(StateActionRewardList)):
-            if i==0:
-                Glist.append(lastReward)
-            else:
-                
-                Glist.insert(0, StateActionRewardList[whereflag][2]+(self.Lamda*Glist[0]))
-            whereflag -= 1
-        
-        whereflag = 0
-        for aSAR in StateActionRewardList:
-            aState = self.StateChanger.getStatebyMap(aSAR[0], side)
-            aAction = aSAR[1]
-            
-            if aState in FirstSeenState:
-                pass
-            else:                
-                FirstSeenState.append(aState)                
-                
-                #update Ndic
-                if self.Ndic.isContain(aState, aAction):
-                    self.Ndic.setNestedItem(aState, aAction, self.Ndic.getNestedItem(aState, aAction)+1)
-                else:
-                    self.Ndic.setNestedItem(aState, aAction, 1)
-                
-                #update Qdic
-                if self.Qdic.isContain(aState, aAction):
-                    oldQ = self.Qdic.getNestedItem(aState, aAction)
-                    self.Qdic.setNestedItem(aState, aAction, oldQ + (Glist[whereflag] - oldQ)/self.Ndic.getNestedItem(aState, aAction))
-                else:
-                    self.Qdic.setNestedItem(aState, aAction, Glist[whereflag])
-            whereflag += 1
-                    
-        #update Policy
-        for aState in self.Ndic.keys():
-            tempqvlist = []
-            tempactionlist = self.ActionType.getActionList()
-            for aAction in tempactionlist:
-                if self.Qdic.isContain(aState, aAction):
-                    tempqvlist.append(self.Qdic.getNestedItem(aState, aAction))
-                else:
-                    tempqvlist.append(0)
-            
-            #update as GLIE
-            self.Policy.update(aState, ProbUtils.changetoGLIE(tempactionlist, tempqvlist, kth_episode))
+    def update(self, StateActionRewardList, side):
+        self.LearningPolicy.update(self, StateActionRewardList, side)
             
     def print(self):
         print('State Type:'+self.StateChanger.getName())
@@ -92,7 +44,27 @@ class LearningObject(object):
         print('Lamda:' + str(self.Lamda))
         print('N dic: ' + str(self.Ndic))
         print('Q dic: ' + str(self.Qdic))
-        print('Policy(simply): ' + self.Policy.toStringByStateAction(self.StateChanger.getName(), self.ActionType.getName()))
+        
+        if self.StateChanger.getName() == 'Longest Line State Changer':
+            astr = '{'
+            for i in range(0,6):
+                for j in range(0,6):
+                    qlist = []
+                    itemlist =[]
+                    for aAction in self.ActionType.getActionList():
+                        if self.Qdic.containNestedItem((i,j), aAction):
+                            qlist.append(self.Qdic.getNestedItem((i,j), aAction))
+                            itemlist.append(aAction)
+                    if not qlist == []:        
+                        maxflag = 0
+                        for i in range(0,len(qlist)):
+                            if qlist[maxflag] <qlist[i]:
+                                maxflag = i
+                        astr = astr + '('+str((i,j))+','+str(itemlist[maxflag])+')'
+                    
+            astr = astr + '}'
+            print('Greedy Q:'+astr)
+        
         
     def save_object(self):
         filedic = '../../LearningData/'

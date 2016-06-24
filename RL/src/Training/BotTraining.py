@@ -16,6 +16,7 @@ from ActionTypes.ATDFRset import ATDFRset
 from Training.RewardCalculator import RewardCalculator
 from utils.HistoryUtils import HistoryUtils
 from utils.MatchResult import MatchResult
+from Learning.OnPolicy.GLIE import GLIE
 
 class BotTraining(object):
     '''
@@ -103,9 +104,9 @@ class BotTraining(object):
             
             #learning this match
             if self.LearningFlag1:
-                bot1.update(n+1)
+                bot1.update()
             if self.LearningFlag2:
-                bot2.update(n+1)
+                bot2.update()
             
             self.TimeResult[1] = self.TimeResult[1] + (time.time() - UpdateTimeStart)
             
@@ -129,14 +130,12 @@ class BotTraining(object):
 if __name__ == "__main__":
     print('start training')
     
-    LLATDF2000 = LearningObject('','','')
-    LLATDF2000.load_object('../../LearningData/LLATDF2000.LO')
-    LLATDF1 = LearningObject(LongistLineStateChanger(), ATDFset, 0.95)
-    LLATDFR1 = LearningObject(LongistLineStateChanger(), ATDFRset(), 1)
+    LLATDF1 = LearningObject(LongistLineStateChanger(), ATDFset, 0.95, GLIE(0))
+    LLATDFR1 = LearningObject(LongistLineStateChanger(), ATDFRset(), 1, GLIE(0))
     LO1 = LLATDF1
     LO2 = LLATDFR1
     
-    BT = BotTraining(LO1, True, LO1, True, 2000)
+    BT = BotTraining(LO1, True, LO1, True, 2)
     
     BT.start()
             
