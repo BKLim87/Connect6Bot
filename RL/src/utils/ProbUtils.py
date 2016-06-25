@@ -76,7 +76,7 @@ class ProbUtils(object):
                 
         eplist[maxth] = eplist[maxth] + 1 - ee
         
-        return ProbUtils.pickFromItemProbList(item_list, plist)
+        return ProbUtils.pickFromItemProbList(item_list, eplist)
     
     @staticmethod
     def pickByGLIE(item_list, plist, kth_episode):

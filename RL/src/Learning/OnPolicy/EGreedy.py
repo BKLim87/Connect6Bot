@@ -5,31 +5,25 @@ Created on 2016. 6. 24.
 '''
 from utils.PolicyUtils import PolicyUtils
 
-class GLIE(object):
+class EGreedy(object):
     '''
     classdocs
     '''
 
 
-    def __init__(self, startn):
+    def __init__(self, ee, alpha):
         '''
         Constructor
         '''
-        self.Nstart = startn
-        self.Nmatch = 1
+        self.E = ee
+        self.Alpha = alpha
     
     @staticmethod
     def getName(self):
-        return 'GLIE'
+        return 'EGreedy'
     
-    def addOneNmatch(self):
-        self.Nmatch += 1
-        
-    def resetNmatch(self):
-        self.Nmatch = 0
-        
     def getAction(self, Qdic, aState, ActionType):
-        return PolicyUtils.EGreedy(Qdic, aState, ActionType, 1/(self.Nstart+self.Nmatch))
+        return PolicyUtils.EGreedy(Qdic, aState, ActionType, self.E)
     
     def update(self, targetLO, StateActionRewardList, side):
         # MC first seen
@@ -66,10 +60,8 @@ class GLIE(object):
                 # update Qdic
                 if targetLO.Qdic.isContain(aState, aAction):
                     oldQ = targetLO.Qdic.getNestedItem(aState, aAction)
-                    targetLO.Qdic.setNestedItem(aState, aAction, oldQ + (Glist[whereflag] - oldQ) / targetLO.Ndic.getNestedItem(aState, aAction))
+                    targetLO.Qdic.setNestedItem(aState, aAction, oldQ + self.Alpha*(Glist[whereflag] - oldQ))
                 else:
                     targetLO.Qdic.setNestedItem(aState, aAction, Glist[whereflag])
             whereflag += 1
-        
-        self.addOneNmatch()
                     

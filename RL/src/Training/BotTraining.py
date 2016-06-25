@@ -135,7 +135,7 @@ if __name__ == "__main__":
     LO1 = LLATDF1
     LO2 = LLATDFR1
     
-    BT = BotTraining(LO1, True, LO1, True, 2)
+    BT = BotTraining(LO1, True, LO1, True, 20)
     
     BT.start()
             
