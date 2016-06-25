@@ -17,6 +17,7 @@ from Training.RewardCalculator import RewardCalculator
 from utils.HistoryUtils import HistoryUtils
 from utils.MatchResult import MatchResult
 from Learning.OnPolicy.GLIE import GLIE
+from Learning.OnPolicy.EGreedy import EGreedy
 
 class BotTraining(object):
     '''
@@ -131,11 +132,11 @@ if __name__ == "__main__":
     print('start training')
     
     LLATDF1 = LearningObject(LongistLineStateChanger(), ATDFset, 0.95, GLIE(0))
-    LLATDFR1 = LearningObject(LongistLineStateChanger(), ATDFRset(), 1, GLIE(0))
+    LLATDFR1 = LearningObject(LongistLineStateChanger(), ATDFRset(), 0.95, EGreedy(0.2, 0.003))
     LO1 = LLATDF1
     LO2 = LLATDFR1
     
-    BT = BotTraining(LO1, True, LO1, True, 20)
+    BT = BotTraining(LO2, True, LO2, True, 2000)
     
     BT.start()
             
