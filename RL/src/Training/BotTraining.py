@@ -110,7 +110,8 @@ class BotTraining(object):
                 bot2.update()
             
             self.TimeResult[1] = self.TimeResult[1] + (time.time() - UpdateTimeStart)
-            
+        
+        '''
         #print training result
         self.printTimeResult()
         self.MatchResult.print()
@@ -118,13 +119,16 @@ class BotTraining(object):
         #print learning object
         self.LearningObject1.print()
         self.LearningObject2.print()
+        '''
         
         if self.LearningFlag1:
-            print('save LearningObject1')
+            #print('save LearningObject1')
             self.LearningObject1.save_object()
         if self.LearningFlag2:
-            print('save LearningObject2')
+            #print('save LearningObject2')
             self.LearningObject2.save_object()
+            
+        return [aHistory, bot1.StateActionRewardList, bot2.StateActionRewardList]
                 
 
 

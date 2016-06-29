@@ -35,7 +35,7 @@ class ATDFset(object):
         ProbUtils.pickUniform( ATDFset.getActionList())
     
     @staticmethod
-    def getActionList():
+    def getActionList(*args):
         return ['2A', '1A1D','2D']
     
     @staticmethod

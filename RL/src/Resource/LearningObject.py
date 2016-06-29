@@ -57,9 +57,9 @@ class LearningObject(object):
                             itemlist.append(aAction)
                     if not qlist == []:        
                         maxflag = 0
-                        for i in range(0,len(qlist)):
-                            if qlist[maxflag] <qlist[i]:
-                                maxflag = i
+                        for k in range(0,len(qlist)):
+                            if qlist[maxflag] <qlist[k]:
+                                maxflag = k
                         astr = astr + '('+str((i,j))+','+str(itemlist[maxflag])+')'
                     
             astr = astr + '}'

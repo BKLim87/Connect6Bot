@@ -35,7 +35,7 @@ class ATDFRset(object):
         ProbUtils.pickUniform( ATDFRset.getActionList())
     
     @staticmethod
-    def getActionList():
+    def getActionList(*args):
         return ['2A', '1A1D','2D', 'R']
     
     @staticmethod

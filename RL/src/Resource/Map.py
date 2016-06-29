@@ -53,3 +53,14 @@ class Map(object):
     def printMap(self):
         for i in range(0,19):
             print(self.MapArray[i])
+            
+    def isStartMap(self):
+        for i in range(0,19):
+            for j in range(0,19):
+                if i == 10 and j == 10:
+                    if self.MapArray[i][j] != 1:
+                        return False
+                else:
+                    if self.MapArray[i][j] != 0:
+                        return False
+        return True
