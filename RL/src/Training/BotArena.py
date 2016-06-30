@@ -9,7 +9,9 @@ from Training.BotTraining import BotTraining
 from Resource.LearningObject import LearningObject
 from StateChanger.LongistLineStateChanger import LongistLineStateChanger
 from ActionTypes.ATDFset import ATDFset
+from ActionTypes.ATDFRset import ATDFRset
 from Learning.OnPolicy.GLIE import GLIE
+from Learning.OnPolicy.EGreedy import EGreedy
 from Learning.OffPolicy.QLearning import QLearning
 from Learning.NoLearningPolicy import NoLearningPolicy
 
@@ -46,7 +48,7 @@ class BotArena(object):
         for aLO in self.OffLineLOs:
             LOlist.append(aLO)
         
-        self.Arena(LOlist, 10)
+        self.Arena(LOlist, 1)
                 
     def printResult(self):
         print('On Policy')
@@ -67,6 +69,8 @@ class BotArena(object):
             for i in range(0, LOLength):
                 templist.append(0)        
             MatchResult.append(templist)
+        for i in range(0, LOLength):
+            MatchResult[i][i] = '-'
         
         for i in range(0, LOLength):
             for j in range(i, LOLength):
@@ -88,11 +92,12 @@ class BotArena(object):
 if __name__ == "__main__":
     print('start training')
     
-    LLATDF1 = LearningObject(LongistLineStateChanger(), ATDFset, 0.95, GLIE(0))
+    ONLO1 = LearningObject(LongistLineStateChanger(), ATDFset, 0.95, GLIE(0))
+    ONLO2 = LearningObject(LongistLineStateChanger(), ATDFRset, 0.95, EGreedy(0.2, 0.005))
     OFFLO1 = LearningObject(LongistLineStateChanger(), ATDFset, 0.95, QLearning(0.005))
     OFFLO2 = LearningObject(LongistLineStateChanger(), ATDFset, 1, QLearning(0.005))
     
-    aBA = BotArena([[LLATDF1, True]], [OFFLO1, OFFLO2], 100)
+    aBA = BotArena([[ONLO1, True]], [OFFLO1, OFFLO2], 2000)
     aBA.start()
     
                      
