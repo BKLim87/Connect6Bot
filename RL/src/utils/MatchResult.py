@@ -45,6 +45,9 @@ class MatchResult(object):
             return 0
         else:
             return 1
+    
+    def getNwin(self):
+        return [self.Result[0][0][0]+self.Result[0][1][0], self.Result[1][0][0]+self.Result[1][1][0]]
         
     def print(self):
         print('LO1:'+self.LO1.getName()+', LO2:'+self.LO2.getName())

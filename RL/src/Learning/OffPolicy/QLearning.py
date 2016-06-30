@@ -58,7 +58,7 @@ class QLearning(object):
             lastAction = aMatchHistory[1][len(aMatchHistory[1])-1][1]
         else:
             lastAction = aLearningObject.ActionType.decodePhase()
-        Qdic.setNestedItem(lastState, lastAction, aMatchHistory[1][len(aMatchHistory)-1][2])
+        Qdic.setNestedItem(lastState, lastAction, aMatchHistory[1][len(aMatchHistory[1])-1][2])
             
         #Learning from LO2
         for i in range(0, len(aMatchHistory[2])-1):
@@ -90,6 +90,6 @@ class QLearning(object):
             lastAction = aMatchHistory[2][len(aMatchHistory[2])-1][1]
         else:
             lastAction = aLearningObject.ActionType.decodePhase()
-        Qdic.setNestedItem(lastState, lastAction, aMatchHistory[2][len(aMatchHistory)-1][2])    
+        Qdic.setNestedItem(lastState, lastAction, aMatchHistory[2][len(aMatchHistory[2])-1][2])    
             
         
