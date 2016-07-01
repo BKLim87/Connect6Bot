@@ -90,6 +90,12 @@ class QLearning(object):
             lastAction = aMatchHistory[2][len(aMatchHistory[2])-1][1]
         else:
             lastAction = aLearningObject.ActionType.decodePhase()
-        Qdic.setNestedItem(lastState, lastAction, aMatchHistory[2][len(aMatchHistory[2])-1][2])    
+        if Qdic.isContain(turnState, turnAction):
+            oldQ = Qdic.getNestedItem(turnState, turnAction)
+        else:
+            oldQ = random.random()-0.5
+        lastReward = aMatchHistory[2][len(aMatchHistory[2])-1][2]
+        oldQ = oldQ + self.alpha*(lastReward - oldQ)
+        Qdic.setNestedItem(lastState, lastAction, oldQ)    
             
         
